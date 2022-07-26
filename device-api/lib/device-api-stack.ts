@@ -1,4 +1,4 @@
-import { Stack, StackProps, CfnOutput } from 'aws-cdk-lib';
+import { Stack } from 'aws-cdk-lib';
 import * as lambda from 'aws-cdk-lib/aws-lambda';
 import * as apigateway from 'aws-cdk-lib/aws-apigateway';
 import * as ssm from 'aws-cdk-lib/aws-ssm';
@@ -15,8 +15,6 @@ export class DeviceApiStack extends Stack {
   constructor(scope: Construct, id: string, props: StackCommonProps) {
     super(scope, id, props);
 
-    const stage = props.stage;
-
     const restApiId = ssm.StringParameter.valueForStringParameter(this, `${SSM_PREFIX}/rest-api-id`); 
     const rootResourceId = ssm.StringParameter.valueForStringParameter(this, `${SSM_PREFIX}/root-resource-id`); 
     const rootApi = apigateway.RestApi.fromRestApiAttributes(this, "root-api", { restApiId, rootResourceId });
@@ -28,10 +26,7 @@ export class DeviceApiStack extends Stack {
     });
 
     const servicea = rootApi.root.addResource('device');
-    const v1 = servicea.addResource('v1');
-    const v1DeviceId = v1.addResource('{deviceid}').addMethod('GET', new apigateway.LambdaIntegration(lambda1, { proxy: true }));
-
-    const v2 = servicea.addResource('v2');
-    const v2DeviceId = v2.addResource('{deviceid}').addMethod('GET', new apigateway.LambdaIntegration(lambda1, { proxy: true }));
+    servicea.addResource('v1').addResource('{deviceid}').addMethod('GET', new apigateway.LambdaIntegration(lambda1, { proxy: true }));
+    servicea.addResource('v2').addResource('{deviceid}').addMethod('GET', new apigateway.LambdaIntegration(lambda1, { proxy: true }));
   }
 }
