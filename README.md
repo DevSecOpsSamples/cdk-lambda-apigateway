@@ -10,7 +10,7 @@ Table of Contents
 2. Deploy device-api stack
 3. Deploy product-api stack
 
-## Prerequisite
+## Prerequisites
 
 ```bash
 npm install -g aws-cdk@2.25.0
