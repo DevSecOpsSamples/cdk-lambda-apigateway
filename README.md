@@ -31,14 +31,18 @@ Use the `cdk` command-line toolkit to interact with your project:
 
 | Stack                         | Time    |
 |-------------------------------|---------|
-| root-api    (24kb)             | 1m 30s  |
-| device-api  (24kb)             | 1m 30s  |
-| product-api (20kb)              | 1m 30s  |
+| root-api    (24kb)            | 1m 30s  |
+| device-api  (24kb)            | 1m 30s  |
+| product-api (20kb)            | 1m 30s  |
 | Total                         | 4m 30s  |
+
+## Steps
+
+Use the [deploy-all.sh](./deploy-all.sh) file if you want to deploy all stacks without prompt at a time.
 
 ### Step 1: root-api
 
-Create the Root API and dummy method to import from device-api and product-api.
+Create the root API and dummy method to import from device-api and product-api stacks.
 
 ```bash
 cd root-api
@@ -75,7 +79,54 @@ SSM parameter:
 * /cdk-lambda-apigateway/rest-api-id
 * /cdk-lambda-apigateway/root-resource-id
 
-### Reference
+## Clean Up
 
-* Template body size: 512k
-* Template body size in an Amazon S3: 1M
+[clean-up.sh](./clean-up.sh)
+
+## Structure
+
+```text
+├── app
+│   └── hello.js
+├── build.gradle
+├── clean-up.sh
+├── deploy-all.sh
+├── device-api
+│   ├── bin
+│   │   └── index.ts
+│   ├── cdk.json
+│   ├── config.ts
+│   ├── jest.config.js
+│   └── lib
+│       └── device-api-stack.ts
+├── package-lock.json
+├── package.json
+├── product-api
+│   ├── bin
+│   │   └── index.ts
+│   ├── cdk.json
+│   ├── config.ts
+│   ├── jest.config.js
+│   └── lib
+│       └── product-api-stack.ts
+├── root-api
+│   ├── bin
+│   │   └── index.ts
+│   ├── cdk.json
+│   ├── config.ts
+│   ├── jest.config.js
+│   └── lib
+│       └── root-api-stack.ts
+├── screenshots
+│   └── apigw.png
+└── tsconfig.json
+```
+## Reference
+
+* [CloudFormation quotas](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/cloudformation-limits.html) 
+  * Template body size: 512k
+  * Template body size in an Amazon S3: 1M
+
+### CDK Lib
+
+* [API Gateway](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_apigateway-readme.html)
