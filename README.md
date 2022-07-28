@@ -13,7 +13,7 @@ Table of Contents
 ## Prerequisites
 
 ```bash
-npm install -g aws-cdk@2.25.0
+npm install -g aws-cdk@2.33.0
 
 # install packages in the root folder
 npm install
@@ -121,6 +121,7 @@ SSM parameter:
 │   └── apigw.png
 └── tsconfig.json
 ```
+
 ## Reference
 
 * [CloudFormation quotas](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/cloudformation-limits.html) 
