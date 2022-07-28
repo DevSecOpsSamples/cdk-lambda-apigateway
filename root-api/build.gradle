@@ -5,9 +5,12 @@ archivesBaseName = 'cdk-lambda-apigateway'
 buildscript {
     repositories {
         mavenCentral()
+        maven {
+            url "https://plugins.gradle.org/m2/"
+        }
     }
     dependencies {
-        classpath("org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:2.5")
+        classpath("org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:3.4.0.2513")
     }
 }
 
@@ -19,6 +22,9 @@ sonarqube {
         property "sonar.sources", "."
         property "sonar.exclusions", "**/node_modules/**"
         property "sonar.cpd.exclusions", "**/*index.ts"
+        property "sonar.issue.ignore.multicriteria", "e1"
+        property "sonar.issue.ignore.multicriteria.e1.ruleKey", "typescript:S1848"
+        property "sonar.issue.ignore.multicriteria.e1.resourceKey", "**/*.ts"
         property "sonar.links.ci", "https://github.com/engel80/cdk-lambda-apigateway"
         property "sonar.log.level", "DEBUG"
     }

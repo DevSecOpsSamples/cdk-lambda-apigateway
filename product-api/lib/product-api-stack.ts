@@ -1,4 +1,4 @@
-import { Stack, StackProps, CfnOutput } from 'aws-cdk-lib';
+import { Stack } from 'aws-cdk-lib';
 import * as lambda from 'aws-cdk-lib/aws-lambda';
 import * as apigateway from 'aws-cdk-lib/aws-apigateway';
 import * as ssm from 'aws-cdk-lib/aws-ssm';
@@ -15,8 +15,6 @@ export class ProductApiStack extends Stack {
   constructor(scope: Construct, id: string, props: StackCommonProps) {
     super(scope, id, props);
 
-    const stage = props.stage;
-
     const restApiId = ssm.StringParameter.valueForStringParameter(this, `${SSM_PREFIX}/rest-api-id`); 
     const rootResourceId = ssm.StringParameter.valueForStringParameter(this, `${SSM_PREFIX}/root-resource-id`); 
     const rootApi = apigateway.RestApi.fromRestApiAttributes(this, "root-api", { restApiId, rootResourceId });
@@ -29,11 +27,11 @@ export class ProductApiStack extends Stack {
 
     const servicea = rootApi.root.addResource('product');
     const v1 = servicea.addResource('v1');
-    const v1Categories = v1.addResource('categories').addMethod('GET', new apigateway.LambdaIntegration(lambda1, { proxy: true }));
-    const v1CcategoryId = v1.addResource('{categoryid}').addMethod('GET', new apigateway.LambdaIntegration(lambda1, { proxy: true }));
+    v1.addResource('categories').addMethod('GET', new apigateway.LambdaIntegration(lambda1, { proxy: true }));
+    v1.addResource('{categoryid}').addMethod('GET', new apigateway.LambdaIntegration(lambda1, { proxy: true }));
 
     const v2 = servicea.addResource('v2');
-    const v2Categories = v2.addResource('categories').addMethod('GET', new apigateway.LambdaIntegration(lambda1, { proxy: true }));
-    const v2CcategoryId = v2.addResource('{categoryid}').addMethod('GET', new apigateway.LambdaIntegration(lambda1, { proxy: true }));
+    v2.addResource('categories').addMethod('GET', new apigateway.LambdaIntegration(lambda1, { proxy: true }));
+    v2.addResource('{categoryid}').addMethod('GET', new apigateway.LambdaIntegration(lambda1, { proxy: true }));
   }
 }
